@@ -56,7 +56,9 @@ public class HomeFragment extends Fragment {
             bundle.putString("titre", box.getTitle());
             bundle.putString("description", box.getDescription());
             bundle.putString("image", box.getImage());
-            bundle.putInt("prix", box.getPercentage());
+            bundle.putInt("percentage", box.getPercentage());
+            bundle.putDouble("collect", box.getPriceCollect());
+            bundle.putInt("nbDonator", box.getNbContributeur());
             Navigation.findNavController(view).navigate(R.id.navigation_dashboard, bundle);
         });
 
@@ -103,7 +105,7 @@ public class HomeFragment extends Fragment {
                                     String title = obj.get("title").toString();
                                     String description = obj.get("description").toString();
 
-                                    boxList.add(new Box(title,description,"https://via.placeholder.com/600x400", (int) Math.round(percentage), date));
+                                    boxList.add(new Box(title,description,"https://via.placeholder.com/600x400", (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),obj.getInt("contributors")));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

@@ -8,14 +8,18 @@ public class Box {
     private String image;
     private int percentage;
     private LocalDate dateEnd;
+    private Double priceCollect;
+    private int nbContributeur;
 
 
-    public Box(String title, String description, String image, int percentage, LocalDate dateEnd) {
+    public Box(String title, String description, String image, int percentage, LocalDate dateEnd, Double priceCollect, int nbContributeur) {
         this.title = title;
         this.description = description;
         this.image = image;
         this.percentage = percentage;
         this.dateEnd = dateEnd;
+        this.priceCollect = priceCollect;
+        this.nbContributeur = nbContributeur;
     }
 
     public String getTitle() {
@@ -56,5 +60,21 @@ public class Box {
 
     public void setDateEnd(LocalDate dateEnd) {
         this.dateEnd = dateEnd;
+    }
+
+    public Double getPriceCollect() {
+        return priceCollect;
+    }
+
+    public void setPriceCollect(Double priceCollect) {
+        this.priceCollect = priceCollect;
+    }
+
+    public int getNbContributeur() {
+        return nbContributeur;
+    }
+
+    public void setNbContributeur(int nbContributeur) {
+        this.nbContributeur = nbContributeur;
     }
 }
