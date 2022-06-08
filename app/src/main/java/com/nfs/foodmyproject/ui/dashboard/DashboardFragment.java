@@ -65,6 +65,7 @@ public class DashboardFragment extends Fragment {
             Palier palier = (Palier) listView.getItemAtPosition(position);
             Bundle bundle = new Bundle();
             bundle.putDouble("ammount", palier.getPrice());
+            bundle.putInt("idProject", getArguments().getInt("idProject",0));
             Navigation.findNavController(view).navigate(R.id.navigation_don,bundle);
         });
 

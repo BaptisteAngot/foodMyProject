@@ -24,6 +24,7 @@ public class DonFragment extends Fragment {
         View root = binding.getRoot();
 
         final TextView ammount = binding.ammountDonTextView;
+        final int idProject = getArguments().getInt("idProject");
         ammount.setText(String.valueOf(getArguments().getDouble("ammount",0.0)));
         return root;
     }

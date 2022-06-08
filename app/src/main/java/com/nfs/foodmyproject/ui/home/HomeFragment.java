@@ -22,7 +22,7 @@ import com.nfs.foodmyproject.DAO.DaoFactory;
 import com.nfs.foodmyproject.R;
 import com.nfs.foodmyproject.beans.Box;
 import com.nfs.foodmyproject.beans.Projet;
-import com.nfs.foodmyproject.beans.ProjetToBoxAdapter;
+import com.nfs.foodmyproject.beans.adapter.ProjetToBoxAdapter;
 import com.nfs.foodmyproject.beans.adapter.BoxListAdapter;
 import com.nfs.foodmyproject.config.ApiEndpoint;
 import com.nfs.foodmyproject.databinding.FragmentHomeBinding;
@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
             //get Item at position
             Box box = (Box) listView.getItemAtPosition(position);
             Bundle bundle = new Bundle();
+            bundle.putInt("id", box.getId());
             bundle.putString("titre", box.getTitle());
             bundle.putString("description", box.getDescription());
             bundle.putString("image", box.getImage());
@@ -114,7 +115,7 @@ public class HomeFragment extends Fragment {
 
                                     DaoFactory.getProjetDao(getContext()).addProjet(new Projet(0, "poutre", "je poutre vos garonnes", (float) 15000 , (float) 1780, "21/08/2023"));
 
-                                    boxList.add(new Box(title,description,"https://via.placeholder.com/600x400", (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),obj.getInt("contributors")));
+                                    boxList.add(new Box(Integer.parseInt(obj.get("id").toString()),title,description,"https://via.placeholder.com/600x400", (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),obj.getInt("contributors")));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
