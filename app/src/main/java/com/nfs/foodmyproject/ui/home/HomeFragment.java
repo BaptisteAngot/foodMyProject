@@ -18,8 +18,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.nfs.foodmyproject.DAO.DaoFactory;
 import com.nfs.foodmyproject.R;
 import com.nfs.foodmyproject.beans.Box;
+import com.nfs.foodmyproject.beans.Projet;
+import com.nfs.foodmyproject.beans.ProjetToBoxAdapter;
 import com.nfs.foodmyproject.beans.adapter.BoxListAdapter;
 import com.nfs.foodmyproject.databinding.FragmentHomeBinding;
 
@@ -29,6 +32,7 @@ import org.json.JSONObject;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -36,6 +40,8 @@ public class HomeFragment extends Fragment {
 
     private BoxListAdapter bla;
     ArrayList<Box> boxList = new ArrayList<Box>();
+    List<Projet> projets = new ArrayList<Projet>();
+    ProjetToBoxAdapter projetToBoxAdapter = new ProjetToBoxAdapter();
     private ListView listView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -104,6 +110,9 @@ public class HomeFragment extends Fragment {
                                     String title = obj.get("title").toString();
                                     String description = obj.get("description").toString();
 
+
+                                    DaoFactory.getProjetDao(getContext()).addProjet(new Projet(0, "poutre", "je poutre vos garonnes", (float) 15000 , (float) 1780, "21/08/2023"));
+
                                     boxList.add(new Box(title,description,"https://via.placeholder.com/600x400", (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),obj.getInt("contributors")));
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -119,6 +128,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("API_EX", "onErrorResponse: " + error.toString());
+                        projets = DaoFactory.getProjetDao(getContext()).getAll();
+                        boxList = (ArrayList<Box>) projetToBoxAdapter.ConvertProjetToBox(projets);
+                        refreshList();
                     }
                 }
         );
