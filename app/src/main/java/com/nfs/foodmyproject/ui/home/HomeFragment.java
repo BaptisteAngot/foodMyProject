@@ -132,7 +132,7 @@ public class HomeFragment extends Fragment {
                                                 date.toString());
                                         DaoFactory.getProjetDao(getContext()).addProjet(projet);
                                     }
-                                    boxArrayList.add(new Box(id,title,description,"https://via.placeholder.com/600x400", (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),contributors));
+                                    boxArrayList.add(new Box(id,title,description,images.get(0), (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),contributors));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
