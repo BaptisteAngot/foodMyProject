@@ -52,7 +52,7 @@ public class DashboardFragment extends Fragment {
         binding.descriptionTextView.setText(getArguments().getString("description",""));
         binding.nbContributeurs.setText(getArguments().getInt("nbDonator",0) + " contributeur(s)");
         Picasso.get().load(getArguments().getString("image")).into(binding.imagetest);
-        binding.argentCollect.setText(getArguments().getInt("collect",0) + " € collecté");
+        binding.argentCollect.setText(getArguments().getDouble("collect",0) + " € collecté");
 
         palierList = getPalier();
         listView = binding.listView;
