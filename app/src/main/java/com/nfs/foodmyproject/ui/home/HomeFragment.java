@@ -86,13 +86,6 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-//    public ArrayList<Box> getBoxes() {
-//        boxes.add(new Box("titre 1", "description 1", "https://via.placeholder.com/600x400", 85, LocalDate.now()));
-//        boxes.add(new Box("titre 2", "description 2", "https://via.placeholder.com/600x400", 40, LocalDate.now()));
-//        boxes.add(new Box("titre 3", "description 3", "https://via.placeholder.com/600x400", 20, LocalDate.now()));
-//        boxes.add(new Box("titre 4", "description 4", "https://via.placeholder.com/600x400", 25, LocalDate.now()));
-//        return boxes;
-//    }
 
     private void getApiBox() {
         RequestQueue rq = Volley.newRequestQueue(getContext());
@@ -115,7 +108,7 @@ public class HomeFragment extends Fragment {
 
                                     DaoFactory.getProjetDao(getContext()).addProjet(new Projet(0, "poutre", "je poutre vos garonnes", (float) 15000 , (float) 1780, "21/08/2023"));
 
-                                    boxList.add(new Box(Integer.parseInt(obj.get("id").toString()),title,description,"https://via.placeholder.com/600x400", (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),obj.getInt("contributors")));
+                                    boxList.add(new Box(Integer.parseInt(obj.get("id").toString()),title,description,"https://picsum.photos/600/400", (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),obj.getInt("contributors")));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
