@@ -1,5 +1,8 @@
 package com.nfs.foodmyproject.ui.home;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,6 +53,8 @@ public class HomeFragment extends Fragment {
         HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
+        projets = DaoFactory.getProjetDao(getContext()).getAll();
+
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         listView = binding.listView;
@@ -86,7 +91,6 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-
     private void getApiBox() {
         RequestQueue rq = Volley.newRequestQueue(getContext());
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
@@ -104,11 +108,18 @@ public class HomeFragment extends Fragment {
                                     LocalDate date = LocalDate.parse(obj.get("limit_date").toString().split("T")[0], DateTimeFormatter.ISO_DATE);
                                     String title = obj.get("title").toString();
                                     String description = obj.get("description").toString();
-
-
-                                    DaoFactory.getProjetDao(getContext()).addProjet(new Projet(0, "poutre", "je poutre vos garonnes", (float) 15000 , (float) 1780, "21/08/2023"));
-
-                                    boxList.add(new Box(Integer.parseInt(obj.get("id").toString()),title,description,"https://picsum.photos/600/400", (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),obj.getInt("contributors")));
+                                    if (projets.size() != 4) {
+                                        DaoFactory.getProjetDao(getContext()).addProjet(
+                                                new Projet(
+                                                        (Integer) obj.get("id"),
+                                                        obj.get("title").toString(),
+                                                        obj.get("description").toString(),
+                                                        Float.parseFloat(obj.get("goal").toString()) ,
+                                                        Float.parseFloat(obj.get("pledge").toString()),
+                                                        date.toString())
+                                        );
+                                    }
+                                    boxList.add(new Box(Integer.parseInt(obj.get("id").toString()),title,description,"https://via.placeholder.com/600x400", (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),obj.getInt("contributors")));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -123,12 +134,19 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("API_EX", "onErrorResponse: " + error.toString());
-                        projets = DaoFactory.getProjetDao(getContext()).getAll();
                         boxList = (ArrayList<Box>) projetToBoxAdapter.ConvertProjetToBox(projets);
                         refreshList();
                     }
                 }
         );
         rq.add(request);
+    }
+
+
+    private boolean internetCheck(){
+        ConnectivityManager cm = (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo nInfo = cm.getActiveNetworkInfo();
+        return nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+
     }
 }
