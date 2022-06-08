@@ -36,7 +36,6 @@ public class HomeFragment extends Fragment {
 
     private BoxListAdapter bla;
     ArrayList<Box> boxList = new ArrayList<Box>();
-    ArrayList<Box> boxes = new ArrayList<Box>();
     private ListView listView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
