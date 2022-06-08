@@ -1,18 +1,14 @@
 package com.nfs.foodmyproject.beans;
 
-import java.time.LocalDate;
-
 public class Palier {
     private String title;
     private String description;
-    private int price;
-    private LocalDate dateEnvoi;
+    private double price;
 
-    public Palier(String title, String description, int price, LocalDate dateEnvoi) {
+    public Palier(String title, String description, double price) {
         this.title = title;
         this.description = description;
         this.price = price;
-        this.dateEnvoi = dateEnvoi;
     }
 
     public String getTitle() {
@@ -31,7 +27,7 @@ public class Palier {
         this.description = description;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -39,16 +35,9 @@ public class Palier {
         this.price = price;
     }
 
-    public LocalDate getDateEnvoi() {
-        return dateEnvoi;
-    }
-
-    public void setDateEnvoi(LocalDate dateEnvoi) {
-        this.dateEnvoi = dateEnvoi;
-    }
 
     @Override
     public String toString() {
-        return "Palier{" + "title=" + title + ", description=" + description + ", price=" + price + ", dateEnvoi=" + dateEnvoi + '}';
+        return "Palier{" + "title=" + title + ", description=" + description + ", price=" + price + '}';
     }
 }

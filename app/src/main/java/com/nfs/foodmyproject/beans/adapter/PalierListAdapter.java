@@ -10,11 +10,12 @@ import android.widget.TextView;
 import com.nfs.foodmyproject.R;
 import com.nfs.foodmyproject.beans.Palier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PalierListAdapter extends BaseAdapter {
     private Context context;
-    private List<Palier> paliers;
+    private List<Palier> paliers = new ArrayList<>();
 
     public PalierListAdapter(Context context, List<Palier> paliers) {
         this.context = context;
@@ -46,12 +47,10 @@ public class PalierListAdapter extends BaseAdapter {
         TextView titre = (TextView) convertView.findViewById(R.id.titre);
         TextView description = (TextView) convertView.findViewById(R.id.description);
         TextView price = (TextView) convertView.findViewById(R.id.price);
-        TextView date = (TextView) convertView.findViewById(R.id.date);
 
         titre.setText(palier.getTitle());
         description.setText(palier.getDescription());
         price.setText(palier.getPrice() + " €");
-        date.setText(palier.getDateEnvoi().toString());
 
         return convertView;
     }
