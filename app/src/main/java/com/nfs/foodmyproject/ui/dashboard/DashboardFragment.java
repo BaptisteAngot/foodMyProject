@@ -40,13 +40,19 @@ public class DashboardFragment extends Fragment {
         View root = binding.getRoot();
 
         final TextView textView = binding.textDashboard;
+        final TextView description = binding.descriptionTextView;
         //logd argument titre
         Log.d("titre", "onCreateView: " + getArguments().getString("titre"));
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), s -> textView.setText(getArguments().getString("titre")));
-        dashboardViewModel.getDescription().observe(getViewLifecycleOwner(), s -> textView.setText(getArguments().getString("titre")));
-        ImageView imageView = (ImageView) binding.imagetest;
+        dashboardViewModel.getDescription().observe(getViewLifecycleOwner(), s -> description.setText(getArguments().getString("titre")));
 
+        int percentage = getArguments().getInt("percentage",0);
+        binding.progressBar2.setProgress(percentage);
+        binding.percentageTextView2.setText(percentage + " %");
+        binding.descriptionTextView.setText(getArguments().getString("description",""));
+        binding.nbContributeurs.setText(getArguments().getInt("nbDonator",0) + " contributeur(s)");
         Picasso.get().load(getArguments().getString("image")).into(binding.imagetest);
+        binding.argentCollect.setText(getArguments().getInt("collect",0) + " € collecté");
 
         palierList = getPalier();
         listView = binding.listView;
