@@ -17,21 +17,9 @@ public class Projet implements Serializable, ProjetMapping {
     private String photo_couverture;
     private ArrayList<String> photos;
     private ArrayList<Contrepartie> contreparties;
+    private int nbContributeur;
     private ArrayList<Don> dons;
     private String date_limite;
-
-    public Projet(int id, String titre, String presentation, Float montant_a_atteindre, Float montant_actuel, String photo_couverture, ArrayList<String> photos, ArrayList<Contrepartie> contreparties, ArrayList<Don> dons, String date_limite) {
-        this.id = id;
-        this.titre = titre;
-        this.presentation = presentation;
-        this.montant_a_atteindre = montant_a_atteindre;
-        this.montant_actuel = montant_actuel;
-        this.photo_couverture = photo_couverture;
-        this.photos = photos;
-        this.contreparties = contreparties;
-        this.dons = dons;
-        this.date_limite = date_limite;
-    }
 
     public Projet(int id, String titre, String presentation, Float montant_a_atteindre, Float montant_actuel, String date_limite){
         this.id = id;
@@ -120,6 +108,28 @@ public class Projet implements Serializable, ProjetMapping {
 
     public void setDate_limite(String date_limite) {
         this.date_limite = date_limite;
+    }
+
+    public Projet(int id, String titre, String presentation, Float montant_a_atteindre, Float montant_actuel, String photo_couverture, ArrayList<String> photos, ArrayList<Contrepartie> contreparties, int nbContributeur, ArrayList<Don> dons, String date_limite) {
+        this.id = id;
+        this.titre = titre;
+        this.presentation = presentation;
+        this.montant_a_atteindre = montant_a_atteindre;
+        this.montant_actuel = montant_actuel;
+        this.photo_couverture = photo_couverture;
+        this.photos = photos;
+        this.contreparties = contreparties;
+        this.nbContributeur = nbContributeur;
+        this.dons = dons;
+        this.date_limite = date_limite;
+    }
+
+    public int getNbContributeur() {
+        return nbContributeur;
+    }
+
+    public void setNbContributeur(int nbContributeur) {
+        this.nbContributeur = nbContributeur;
     }
 }
 
