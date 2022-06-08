@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.nfs.foodmyproject.R;
 import com.nfs.foodmyproject.beans.Palier;
@@ -59,6 +60,14 @@ public class DashboardFragment extends Fragment {
         dashboardViewModel.getListView().observe(getViewLifecycleOwner(),listView::addView);
         pla = new PalierListAdapter(getContext(), palierList);
         listView.setAdapter(pla);
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Palier palier = (Palier) listView.getItemAtPosition(position);
+            Bundle bundle = new Bundle();
+            bundle.putDouble("ammount", palier.getPrice());
+            Navigation.findNavController(view).navigate(R.id.navigation_don,bundle);
+        });
+
         return root;
     }
 
