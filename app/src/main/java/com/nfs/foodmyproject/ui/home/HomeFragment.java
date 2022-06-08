@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.nfs.foodmyproject.R;
 import com.nfs.foodmyproject.beans.Box;
 import com.nfs.foodmyproject.beans.adapter.BoxListAdapter;
+import com.nfs.foodmyproject.config.ApiEndpoint;
 import com.nfs.foodmyproject.databinding.FragmentHomeBinding;
 
 import org.json.JSONArray;
@@ -89,7 +90,7 @@ public class HomeFragment extends Fragment {
     private void getApiBox() {
         RequestQueue rq = Volley.newRequestQueue(getContext());
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
-                "http://192.168.0.74:8000/api/project",
+                ApiEndpoint.BASE+ApiEndpoint.GET_PROJECTS,
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
