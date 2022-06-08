@@ -3,6 +3,7 @@ package com.nfs.foodmyproject.beans;
 import java.time.LocalDate;
 
 public class Box {
+    private int id;
     private String title;
     private String description;
     private String image;
@@ -12,7 +13,8 @@ public class Box {
     private int nbContributeur;
 
 
-    public Box(String title, String description, String image, int percentage, LocalDate dateEnd, Double priceCollect, int nbContributeur) {
+    public Box(int id,String title, String description, String image, int percentage, LocalDate dateEnd, Double priceCollect, int nbContributeur) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.image = image;
@@ -76,5 +78,9 @@ public class Box {
 
     public void setNbContributeur(int nbContributeur) {
         this.nbContributeur = nbContributeur;
+    }
+
+    public int getId() {
+        return id;
     }
 }
