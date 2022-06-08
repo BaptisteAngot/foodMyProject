@@ -24,6 +24,8 @@ import com.android.volley.toolbox.Volley;
 import com.nfs.foodmyproject.DAO.DaoFactory;
 import com.nfs.foodmyproject.R;
 import com.nfs.foodmyproject.beans.Box;
+import com.nfs.foodmyproject.beans.Contrepartie;
+import com.nfs.foodmyproject.beans.Don;
 import com.nfs.foodmyproject.beans.Projet;
 import com.nfs.foodmyproject.beans.adapter.ProjetToBoxAdapter;
 import com.nfs.foodmyproject.beans.adapter.BoxListAdapter;
@@ -52,7 +54,6 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-
         projets = DaoFactory.getProjetDao(getContext()).getAll();
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -73,7 +74,8 @@ public class HomeFragment extends Fragment {
             bundle.putInt("nbDonator", box.getNbContributeur());
             Navigation.findNavController(view).navigate(R.id.navigation_dashboard, bundle);
         });
-
+        boxList = (ArrayList<Box>) projetToBoxAdapter.ConvertProjetToBox(projets);
+        refreshList();
         getApiBox();
         bla = new BoxListAdapter(getContext(), boxList);
         listView.setAdapter(bla);
@@ -100,6 +102,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
                         if (response.length() > 0) {
+                            ArrayList<Box> boxArrayList = new ArrayList<>();
                             for (int i = 0; i < response.length(); i++) {
                                 try {
                                     JSONObject obj = response.getJSONObject(i);
@@ -108,22 +111,33 @@ public class HomeFragment extends Fragment {
                                     LocalDate date = LocalDate.parse(obj.get("limit_date").toString().split("T")[0], DateTimeFormatter.ISO_DATE);
                                     String title = obj.get("title").toString();
                                     String description = obj.get("description").toString();
-                                    if (projets.size() != 4) {
-                                        DaoFactory.getProjetDao(getContext()).addProjet(
-                                                new Projet(
-                                                        (Integer) obj.get("id"),
-                                                        obj.get("title").toString(),
-                                                        obj.get("description").toString(),
-                                                        Float.parseFloat(obj.get("goal").toString()) ,
-                                                        Float.parseFloat(obj.get("pledge").toString()),
-                                                        date.toString())
-                                        );
+                                    ArrayList<String> images = new ArrayList<>();
+                                    for (int y = 0; y < obj.getJSONArray("media").length(); y++) {
+                                        images.add(obj.getJSONArray("media").getJSONObject(y).get("source").toString());
                                     }
-                                    boxList.add(new Box(Integer.parseInt(obj.get("id").toString()),title,description,"https://via.placeholder.com/600x400", (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),obj.getInt("contributors")));
+                                    Integer id = obj.getInt("id");
+                                    Integer contributors = obj.getInt("contributors");
+                                    if (i > 3 && projets.size() == 0) {
+                                        Projet projet = new Projet(
+                                                id,
+                                                title,
+                                                description,
+                                                Float.parseFloat(obj.get("goal").toString()) ,
+                                                Float.parseFloat(obj.get("pledge").toString()),
+                                                images.get(0),
+                                                images,
+                                                null,
+                                                contributors,
+                                                null,
+                                                date.toString());
+                                        DaoFactory.getProjetDao(getContext()).addProjet(projet);
+                                    }
+                                    boxArrayList.add(new Box(id,title,description,"https://via.placeholder.com/600x400", (int) Math.round(percentage), date, Double.parseDouble(obj.get("pledge").toString()),contributors));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
+                            boxList = boxArrayList;
                             refreshList();
                         } else {
                             Log.d("API_EX", "empty ressources");
@@ -134,8 +148,6 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("API_EX", "onErrorResponse: " + error.toString());
-                        boxList = (ArrayList<Box>) projetToBoxAdapter.ConvertProjetToBox(projets);
-                        refreshList();
                     }
                 }
         );
